@@ -5,7 +5,7 @@ export default function Remember() {
     <ComponentContainer>
       <CheckboxContainer>      
         <StyledInput id="remember" type="checkbox"/>
-        <StyledLabel for="remember">Remember Me</StyledLabel>
+        <StyledLabel htmlFor="remember">Remember Me</StyledLabel>
       </CheckboxContainer>
       <StyledLink href="#">Forgot Password</StyledLink>
     </ComponentContainer>
