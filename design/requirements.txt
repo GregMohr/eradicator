@@ -1,0 +1,66 @@
+customer can create an account
+customer can change password
+customer can change forgotten password
+customer can open a bug
+customer can add support docs to bug
+customer can update a bug
+  only the updates they've provided
+  all updates are logged
+customer can request to close a bug
+
+engineer can open a bug
+engineer can add support docs to bug
+engineer can update a bug
+engineer can close a bug
+engineer can review bug edit logs
+engineer can auto send preformatted emails to customer
+engineer can author preformatted emails
+engineer can re-assign bugs
+
+lead can assign bugs
+
+administrator can do everything an engineer can 
+administrator can add users of all categories (engineer, customer, administrator)
+administrator can modify users of all categories
+administrator can add projects and categories
+administrator can configure system alerts
+administrator can create new roles and assign default permissions
+
+system can autosend emails to customer, engineer or administrator
+
+bugs are assigned unique bug#s
+bugs can have differing priorities and severities
+bugs should be able to send auto alerts, depending on severity and priority, to appropriate engineers
+bug fields: issue#, priority, severity, project, category, description, support files, stage/status
+
+Pages:
+Login (Demo User login buttons)
+-Form: Name field, Password field, Remember Me checkbox, Submit button, Demo Users modal button
+-Forgot password link (forgot ID link?)
+-Sign Up link
+
+Demo Users modal
+-a button for each user type that automatically logs you in at that user level
+
+Dashboard (per user type: customer, engineer, admin)
+(Customer)
+-Open issue
+-Table of user's issues (Review/Update/Close issue)
+--standard rowed table with issue info headers or something more visual split between
+--issue categories (open, in progress, closed, etc) with a tile for each issue
+
+(Engineer)
+-Send email (in review/update)
+-Configure emails
+
+(Admin)
+-Add new user
+-Modify/Delete existing user
+-Configure system alerts
+
+future:
+Accessibility: Web, email and command line interface
+Expand categories
+Add subcategories
+Issue templates
+Reporting
