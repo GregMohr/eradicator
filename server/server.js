@@ -16,6 +16,7 @@ connectDB();
 
 // Routes
 app.use("/api/auth", require('./routes/auth'));
+app.use("/api/private", require('./routes/private'));
 
 // Custom error error handler. Should be last middleware
 app.use(errorHandler);
