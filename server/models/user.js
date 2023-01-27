@@ -1,9 +1,9 @@
-// const { string } = require('joi');
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const emailRegExp = new RegExp(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/); // Email format: 
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 
+const emailRegExp = new RegExp(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/); // Email format: 
 
 // time created, user permissions level, pass min length?
 // confirm using email.unique and password.select
@@ -34,6 +34,15 @@ userSchema.methods.generateAuthToken = () => {
   return jwt.sign({_id: this._id}, process.env.JWTPRIVATEKEY, {expiresin: '7d'});
 }
 
+userSchema.methods.generateResetPasswordToken = () => {
+  const resetToken = crypto.randomBytes(20).toString('hex');
+
+  this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  this.resetPasswordExpire = Date.now() + 10 * (60 * 1000); // Left in equation too easily change the minutes
+
+  return resetToken;
+}
+
 const User = mongoose.model('user', userSchema);
 
-module.exports = User;
+export { User };

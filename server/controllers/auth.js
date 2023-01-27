@@ -1,8 +1,7 @@
-const User = require('../models/user');
-const ErrorResponse = require('../utils/errorResponse');
+import User from '../models/user';
+import ErrorResponse from '../utils/errorResponse';
 
 const signUp = async (req, res, next) => {
-  console.log('auth controller signup');
   try {
     const { firstName, lastName, email, password } = req.body;
     const user = await User.create({ firstName, lastName, email, password });
@@ -34,8 +33,35 @@ const signIn = async (req, res, next) => {
 
 }
 
-const forgotPassword = (req, res, next) => {
-  res.send(`auth.forgotPassword`);
+const forgotPassword = async (req, res, next) => {
+  const { email } = req.body;
+
+  try {
+    const user = User.findOne(email);
+    if(!user) return next(new ErrorResponse('Email address not found', 404));
+
+    const resetToken = user.generateResetPasswordToken();
+
+    await user.save();
+
+    // 3000 is possibly temp. It represents the port where the front end is taking requests. resetpassword may als be incorrect as vid said passwordrest, but I think it's incorrect
+    const resetURL = `http://localhost:3000/resetpassword/${resetToken}`;
+
+    const message = `
+      <h1>Password reset requested</h1>
+      <p>A password reset request was submitted, for this email address, to Eradicator.
+      We have found your email address on file and you may reset your password by following the link below</p>
+      <a href=${resetURL} clicktracking=off>${resetURL}</a>
+      <p>If you didn't make this request, feel free to ignore it.</p>
+    `
+    try {
+      
+    } catch (error) {
+      
+    }
+  } catch (error) {
+    
+  }
 }
 
 const resetPassword = (req, res, next) => {
@@ -47,4 +73,4 @@ const sendToken = (user, statusCode, res) => {
   res.status(statusCode).json({ success: true, token });
 }
 
-module.exports = { signUp, signIn, forgotPassword, resetPassword };
+export { signUp, signIn, forgotPassword, resetPassword };

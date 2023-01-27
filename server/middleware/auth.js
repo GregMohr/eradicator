@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
-const ErrorResponse = require('../utils/errorResponse');
+import jwt from 'jsonwebtoken';
+import User from '../models/user';
+import ErrorResponse from '../utils/errorResponse';
 
 // Verify token/access
-exports.protect = async (req, res, next) => {
+export const protect = async (req, res, next) => {
   let token;
 
   if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {

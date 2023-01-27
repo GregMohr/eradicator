@@ -1,8 +1,10 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./db');
-const errorHandler = require('./middleware/error');
+import dotenv from ('dotenv');
+import express from 'express';
+import cors from 'cors';
+import connectDB from './db';
+import authRoutes from './routes/auth';
+import privateRoutes from './routes/private';
+import errorHandler from'./middleware/error';
 
 const port = process.env.port || 8080;
 const app = express();
@@ -15,8 +17,8 @@ app.use(cors());
 connectDB();
 
 // Routes
-app.use("/api/auth", require('./routes/auth'));
-app.use("/api/private", require('./routes/private'));
+app.use("/api/auth", authRoutes);
+app.use("/api/private", privateRoutes);
 
 // Custom error error handler. Should be last middleware
 app.use(errorHandler);
