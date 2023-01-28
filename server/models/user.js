@@ -31,18 +31,18 @@ userSchema.methods.matchPasswords = async function(password) {
 }
 
 userSchema.methods.generateAuthToken = () => {
-  return jwt.sign({_id: this._id}, process.env.JWTPRIVATEKEY, {expiresin: '7d'});
+  return jwt.sign({_id: this._id}, process.env.JWTPRIVATEKEY, {expiresIn: '7d'});
 }
 
-userSchema.methods.generateResetPasswordToken = () => {
+userSchema.methods.generateResetPasswordToken = function() {
   const resetToken = crypto.randomBytes(20).toString('hex');
 
   this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-  this.resetPasswordExpire = Date.now() + 10 * (60 * 1000); // Left in equation too easily change the minutes
+  this.resetPasswordExpire = Date.now() + 10 * (60 * 1000); // First number is minutes
 
   return resetToken;
 }
 
 const User = mongoose.model('user', userSchema);
 
-export { User };
+export default User;

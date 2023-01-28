@@ -1,5 +1,6 @@
-import User from '../models/user';
-import ErrorResponse from '../utils/errorResponse';
+import User from '../models/user.js';
+import ErrorResponse from '../utils/errorResponse.js';
+import sendEmail from '../utils/sendEmail.js';
 
 const signUp = async (req, res, next) => {
   try {
@@ -44,7 +45,7 @@ const forgotPassword = async (req, res, next) => {
 
     await user.save();
 
-    // 3000 is possibly temp. It represents the port where the front end is taking requests. resetpassword may als be incorrect as vid said passwordrest, but I think it's incorrect
+    // 3000 is possibly temp. It represents the port where the front end is taking requests. resetpassword route may also be incorrect as vid said passwordrest, but I think it's incorrect
     const resetURL = `http://localhost:3000/resetpassword/${resetToken}`;
 
     const message = `
@@ -55,12 +56,22 @@ const forgotPassword = async (req, res, next) => {
       <p>If you didn't make this request, feel free to ignore it.</p>
     `
     try {
-      
+      await sendEmail({
+        to: user.email,
+        subject: 'Password Reset',
+        text: message
+      })
+
+      res.status(200).json({ success: true, data: 'Password Reset email sent' })
     } catch (error) {
-      
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+      await user.save();
+
+      return next(new ErrorResponse('Email could not be sent', 500));
     }
   } catch (error) {
-    
+    next(error);
   }
 }
 

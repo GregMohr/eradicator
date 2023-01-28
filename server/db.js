@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export const connect = async () => {
+const connectDB = async () => {
   // mongoose 6.0+ connection parameters default as:
   // useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false
 
@@ -12,3 +12,5 @@ export const connect = async () => {
     console.log(error);
   }
 }
+
+export default connectDB;

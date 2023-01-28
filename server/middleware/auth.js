@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/user';
-import ErrorResponse from '../utils/errorResponse';
+import User from '../models/user.js';
+import ErrorResponse from '../utils/errorResponse.js';
 
 // Verify token/access
 export const protect = async (req, res, next) => {

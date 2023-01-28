@@ -1,4 +1,4 @@
-import ErrorResponse from '../utils/errorResponse';
+import ErrorResponse from '../utils/errorResponse.js';
 
 const errorHandler = (err, req, res, next) => {
   let error = { ...err };
@@ -22,4 +22,4 @@ const errorHandler = (err, req, res, next) => {
   });
 }
 
-export { errorHandler };
+export default errorHandler;
