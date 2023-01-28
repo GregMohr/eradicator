@@ -3,6 +3,7 @@ import ErrorResponse from '../utils/errorResponse.js';
 import sendEmail from '../utils/sendEmail.js';
 
 const signUp = async (req, res, next) => {
+  console.log("AuthController signUp");
   try {
     const { firstName, lastName, email, password } = req.body;
     const user = await User.create({ firstName, lastName, email, password });
@@ -38,9 +39,11 @@ const forgotPassword = async (req, res, next) => {
   const { email } = req.body;
 
   try {
-    const user = User.findOne(email);
+    const user = await User.findOne({ email });
+
     if(!user) return next(new ErrorResponse('Email address not found', 404));
 
+    console.log("user email", user.email);
     const resetToken = user.generateResetPasswordToken();
 
     await user.save();
