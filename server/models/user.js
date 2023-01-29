@@ -35,16 +35,13 @@ userSchema.methods.generateAuthToken = function() {
 }
 
 userSchema.methods.generateResetPasswordToken = function() {
-  console.log("generateResetPasswordToken")
+  const resetToken = crypto.randomBytes(20).toString('hex');
+
+  this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  this.resetPasswordExpire = Date.now() + 10 * (60 * 1000); // First number is minutes
+
+  return resetToken;
 }
-// userSchema.methods.generateResetPasswordToken = function() {
-//   const resetToken = crypto.randomBytes(20).toString('hex');
-
-//   this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-//   this.resetPasswordExpire = Date.now() + 10 * (60 * 1000); // First number is minutes
-
-//   return resetToken;
-// }
 
 const User = mongoose.model('user', userSchema);
 
